@@ -2,7 +2,7 @@ name: Wohnungswaechter
 
 on:
   schedule:
-    - cron: "*/10 * * * *"   # alle 10 Minuten
+    - cron: "*/5 * * * *"   # alle 5 Minuten
   workflow_dispatch:          # Knopf zum manuellen Starten
 
 permissions:
