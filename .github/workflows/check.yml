@@ -1,0 +1,41 @@
+name: Wohnungswaechter
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # alle 10 Minuten
+  workflow_dispatch:          # Knopf zum manuellen Starten
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wohnungswaechter
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Bibliotheken installieren
+        run: pip install requests beautifulsoup4
+
+      - name: Wohnungsfinder pruefen
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python finder.py
+
+      - name: Stand speichern
+        run: |
+          git config user.name "wohnungswaechter"
+          git config user.email "actions@github.com"
+          git add seen.json
+          git diff --staged --quiet || git commit -m "Stand aktualisiert"
+          git push
