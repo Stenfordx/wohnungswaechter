@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 # Einmaliger Test: meldet ALLE passenden Wohnungen, egal ob schon gesehen.
 # Damit pruefst du, ob die Push-Nachricht wirklich ankommt.
 # Nach dem Test wieder auf False stellen. Die Merkliste bleibt unberuehrt.
-TESTLAUF = False
+TESTLAUF = True
 
 # Ganz Berlin durchsuchen? Dann bleibt der Ortsfilter komplett aus.
 GANZ_BERLIN = True
